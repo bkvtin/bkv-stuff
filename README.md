@@ -4,7 +4,7 @@
 * 0.1
 
 ### Preparation:
-* Install Cygwin - https://cygwin.com/install.html
+* Install [#Cygwin][link-cygwin] 
 * Pull the stuff into home path and grant access
 
 ### How to use:
@@ -25,3 +25,8 @@ _________________________________________________________
 ### Advantages: 
 * Show the title in windows cygwin
 * Use naming convention
+
+### Flow chart:
+![ssh-connection-in-cygwin](https://raw.githubusercontent.com/bkvtin/bkv-stuff/v.0.1/flowchart/ssh-connection-in-cygwin.png)
+
+[link-cygwin]: <https://cygwin.com/install.html>
