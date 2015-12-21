@@ -1,0 +1,82 @@
+#!/bin/bash
+# Purpose : Connect to linux server in SDL                  
+# Author  : Tin Tran                     
+
+# ---------------------------------------------------------------
+# Show title of cygwin terminal
+# ---------------------------------------------------------------
+function settitle() {
+  servername=$1
+  echo -ne "\033]2;"$servername"\007"
+}
+function title() {
+  settitle $(cygpath -m `pwd`)
+}
+
+# ---------------------------------------------------------------
+# Check variable is interger or not
+#----------------------------------------------------------------
+function is_integer() {
+  printf "%d" $1 > /dev/null 2>&1
+  return $?
+}
+
+# ---------------------------------------------------------------
+# Format view
+#----------------------------------------------------------------
+function format() {
+  printf "%s\n" "_________________________________________________________"
+  printf "%s\n" "                                                 "
+  printf "%s\n" "* Having ${#ip[@]} matching results, choose 1 in ${#ip[@]}"
+  printf "%s\n\n" "_________________________________________________________"
+}
+
+# ---------------------------------------------------------------
+# Define variable
+#----------------------------------------------------------------
+path="./List_server_ip_public"
+ip=(`grep "$1" $path | awk '{print $1}'`)
+server=(`grep "$1" $path | awk '{print $2}'`)
+
+# ---------------------------------------------------------------
+# Main
+#----------------------------------------------------------------
+# Check if having more selections
+u_ma="your-username"
+p_ma="your-encode-base64-password" # echo "your-plaintext-password" | base64
+
+if [ ${#server[@]} -gt 1 ];then
+  format
+  j=0
+  for i in "${server[@]}"; do
+    let "count=$j+1"
+    printf "%s\t\t%s\n" "[$count] - $i" "${ip[$j]}"
+    let "j=$j+1"
+  done
+  printf "%s\n\n" "_________________________________________________________"
+
+  # Choose server to connect
+  echo -n "* Which server: "; read input
+  lenght=${#ip[@]}
+  # Check if it is not interger
+  if is_integer $input;then
+    for (( i=1; i <= $lenght; i++ )); do
+      if [ $input -eq $i ];then
+        let "j=$i-1"
+        echo ":: Connecting server ${server[$j]} ${ip[$j]} ..."
+        settitle ${server[@]}
+        
+        # ------ Old style ------
+        #ssh -p 22 $u_ma@"${ip[$j]}"
+ 
+        # ------ New style ------
+        ./auto_ssh.ksh $u_ma ${ip[$j]} $(echo $p_ma | base64 -d)
+      fi
+    done
+  else
+    printf "%s\n\n" "_________________________________________________________"
+    printf "%s\n\n" "[WARNING] - Wrong selection. Try again or go home"
+  fi
+else
+  echo ":: Your choice is not supported"
+fi
