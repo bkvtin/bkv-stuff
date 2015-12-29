@@ -1,0 +1,119 @@
+#------------------------------------
+# system diagnostic
+#------------------------------------
+  # memory
+alias afree="free -mt"
+alias apsmem='ps auxf | sort -nr -k 4'
+alias apsmem10='ps auxf | sort -nr -k 4 | head -10'
+
+  # cpu
+alias pscpu='ps auxf | sort -nr -k 3'
+alias pscpu10='ps auxf | sort -nr -k 3 | head -10'
+
+alias atop="htop"
+alias areboot='shutdown -r now'
+alias ashutdown='shutdown -h now'
+alias aupdate='sudo apt-get --yes update && sudo apt-get --yes upgrade'
+
+  # disk usage
+alias adf="df -Tha --total"
+alias adu="du -ach | sort -h"
+
+  # find the process with name
+  # need prompt $1 `process-name`
+alias aps="ps aux | grep -v grep | grep -i -e VSZ -e"
+
+
+#------------------------------------
+# my public-ip-address
+#------------------------------------
+alias aip="curl http://ipecho.net/plain; echo"
+
+
+#------------------------------------
+# text editor
+#------------------------------------
+  # vim with set nu
+alias avim "+set nu"
+
+function nanocolor {
+  # enable color highlight syntax in nano
+  if [[ -z $(cat ~/.nanorc | grep "include /usr/share/nano/sh.nanorc") ]]; then
+    echo "include /usr/share/nano/sh.nanorc" >> ~/.nanorc
+  else
+    echo "Already have syntax highlighting in nano"
+  fi
+}
+
+
+#------------------------------------
+# statistic
+#------------------------------------
+function astatistic {
+  # list ten kind of commands are used many times
+  history \
+    | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' \
+    | grep -v "./" \
+    | column -c3 -s " " -t \
+    | sort -nr \
+    | nl \
+    |  head -n10
+}
+
+
+#------------------------------------
+# files
+#------------------------------------
+function adiff {
+  # compare 2 files with color output
+  if [ -z "$1" ] || [ -z "$2" ]; then
+    echo "Usage: adiff foo bar"
+  else
+    sdiff -s $1 $2 | colordiff
+  fi
+}
+
+function aextract {
+  #extract compress-file with all types
+  if [ -z "$1" ]; then
+    echo "Usage: extract /path/to/file/foo.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
+  else
+    if [ -f $1 ] ; then
+      # NAME=${1%.*}
+      # mkdir $NAME && cd $NAME
+      echo "$1"
+      case $1 in
+        *.tar.bz2)   tar xvjf $1    ;;
+        *.tar.gz)    tar xvzf $1    ;;
+        *.tar.xz)    tar xvJf $1    ;;
+        *.lzma)      unlzma $1      ;;
+        *.bz2)       bunzip2 $1     ;;
+        *.rar)       unrar x -ad $1 ;;
+        *.gz)        gunzip $1      ;;
+        *.tar)       tar xvf $1     ;;
+        *.tbz2)      tar xvjf $1    ;;
+        *.tgz)       tar xvzf $1    ;;
+        *.zip)       unzip $1       ;;
+        *.Z)         uncompress $1  ;;
+        *.7z)        7z x $1        ;;
+        *.xz)        unxz $1        ;;
+        *.exe)       cabextract $1  ;;
+        *)           echo "extract: '$1' - unknown archive method" ;;
+      esac
+    else
+      echo "$1 - file does not exist"
+    fi
+  fi
+}
+
+
+#------------------------------------
+# the others
+#------------------------------------
+alias ..='cd ..'
+alias ..-='cd -'
+alias ...='cd ../../../'
+
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
