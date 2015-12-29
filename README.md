@@ -30,3 +30,18 @@ _________________________________________________________
 ![ssh-connection-in-cygwin](https://raw.githubusercontent.com/bkvtin/bkv-stuff/v.0.1/flowchart/ssh-connection-in-cygwin.png)
 
 [link-cygwin]: <https://cygwin.com/install.html>
+
+# Handy shell bash alias
+* Add user defined aliases to ~/.bashrc file
+```sh
+# update ~/.bashrc with handy shell alias
+nano ~/.bashrc
+```
+* List all aliases
+```sh
+alias
+```
+* Remove an alias
+```sh
+unalias alias-name
+```
