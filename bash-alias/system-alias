@@ -34,9 +34,9 @@ alias aip="curl http://ipecho.net/plain; echo"
 # text editor
 #------------------------------------
   # vim with set nu
-alias avim "+set nu"
+alias avim="+set nu"
 
-function nanocolor {
+function ananocolor {
   # enable color highlight syntax in nano
   if [[ -z $(cat ~/.nanorc | grep "include /usr/share/nano/sh.nanorc") ]]; then
     echo "include /usr/share/nano/sh.nanorc" >> ~/.nanorc
@@ -114,6 +114,6 @@ alias ..='cd ..'
 alias ..-='cd -'
 alias ...='cd ../../../'
 
-alias grep='grep --color=auto'
-alias egrep='egrep --color=auto'
-alias fgrep='fgrep --color=auto'
+alias agrep='grep --color=auto'
+alias aegrep='egrep --color=auto'
+alias afgrep='fgrep --color=auto'
