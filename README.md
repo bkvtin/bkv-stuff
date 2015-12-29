@@ -36,6 +36,7 @@ _________________________________________________________
 ```sh
 # update ~/.bashrc with handy shell alias
 nano ~/.bashrc
+source ~/.bashrc
 ```
 * List all aliases
 ```sh
