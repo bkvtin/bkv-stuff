@@ -36,7 +36,7 @@ alias myip="curl http://ipecho.net/plain; echo"
 # text editor
 #------------------------------------
   # vim with set nu
-alias vim="+set nu"
+alias vi='vim "+set nu"'
 
 function nanocolor {
   # enable color highlight syntax in nano
