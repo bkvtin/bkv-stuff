@@ -4,41 +4,41 @@
 # system diagnostic
 #------------------------------------
   # memory
-alias afree="free -mt"
-alias apsmem='ps auxf | sort -nr -k 4'
-alias apsmem10='ps auxf | sort -nr -k 4 | head -10'
+alias free="free -mt"
+alias psmem='ps auxf | sort -nr -k 4'
+alias psmem10='ps auxf | sort -nr -k 4 | head -10'
 
   # cpu
 alias pscpu='ps auxf | sort -nr -k 3'
 alias pscpu10='ps auxf | sort -nr -k 3 | head -10'
 
-alias atop="htop"
-alias areboot='shutdown -r now'
-alias ashutdown='shutdown -h now'
-alias aupdate='sudo apt-get --yes update && sudo apt-get --yes upgrade'
+alias top="htop"
+alias reboot='shutdown -r now'
+alias shutdown='shutdown -h now'
+alias update='sudo apt-get --yes update && sudo apt-get --yes upgrade'
 
   # disk usage
-alias adf="df -Tha --total"
-alias adu="du -ach | sort -h"
+alias df="df -Tha --total"
+alias du="du -ach | sort -h"
 
   # find the process with name
   # need prompt $1 `process-name`
-alias aps="ps aux | grep -v grep | grep -i -e VSZ -e"
+alias ps="ps aux | grep -v grep | grep -i -e VSZ -e"
 
 
 #------------------------------------
 # my public-ip-address
 #------------------------------------
-alias aip="curl http://ipecho.net/plain; echo"
+alias myip="curl http://ipecho.net/plain; echo"
 
 
 #------------------------------------
 # text editor
 #------------------------------------
   # vim with set nu
-alias avim="+set nu"
+alias vim="+set nu"
 
-function ananocolor {
+function nanocolor {
   # enable color highlight syntax in nano
   if [[ -z $(cat ~/.nanorc | grep "include /usr/share/nano/sh.nanorc") ]]; then
     touch ~/.bashrc
@@ -52,7 +52,7 @@ function ananocolor {
 #------------------------------------
 # statistic
 #------------------------------------
-function astatistic {
+function statistic {
   # list ten kind of commands are used many times
   history \
     | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' \
@@ -67,7 +67,7 @@ function astatistic {
 #------------------------------------
 # files
 #------------------------------------
-function adiff {
+function diff {
   # compare 2 files with color output
   if [ -z "$1" ] || [ -z "$2" ]; then
     echo "Usage: adiff foo bar"
@@ -76,7 +76,7 @@ function adiff {
   fi
 }
 
-function aextract {
+function extract {
   #extract compress-file with all types
   if [ -z "$1" ]; then
     echo "Usage: extract /path/to/file/foo.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
@@ -122,6 +122,6 @@ alias ..='cd ..'
 alias ..-='cd -'
 alias ...='cd ../../../'
 
-alias agrep='grep --color=auto'
-alias aegrep='egrep --color=auto'
-alias afgrep='fgrep --color=auto'
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
