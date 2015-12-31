@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #------------------------------------
 # system diagnostic
 #------------------------------------
@@ -39,6 +41,7 @@ alias avim="+set nu"
 function ananocolor {
   # enable color highlight syntax in nano
   if [[ -z $(cat ~/.nanorc | grep "include /usr/share/nano/sh.nanorc") ]]; then
+    touch ~/.bashrc
     echo "include /usr/share/nano/sh.nanorc" >> ~/.nanorc
   else
     echo "Already have syntax highlighting in nano"
