@@ -10,6 +10,7 @@
 ### How to use:
 ```sh
 $ connect foo
+revert
 ```
 
 ```sh
