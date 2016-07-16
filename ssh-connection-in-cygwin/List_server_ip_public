@@ -1,7 +1,25 @@
-#------------------------------------------
-# Prepare the list of servers with name 
-# and ip-address
-#------------------------------------------
-
-# EXAMPLE
-x.x.x.x      full-server-name      short-name
+None				rml_zebra_bms_(david_-_only_activate_when_necessary)						None					
+None				test_docker_system															None					
+52.77.212.213		rml-projects-live-autoscale_1b_old											rml_live_new.pem											
+52.77.242.158		rml_dev_-_php56																rainmakerlabs.pem																
+54.251.121.104		rml_etc_-_inhouse_(website)													rainmakerlabs.pem													
+52.77.231.75		rml_staging_2_-projects_&_product											RML_Staging_Key.pem									
+52.74.175.116		rml_live_-_haproxy															Live_Server_Key_Pair.pem													
+52.74.232.9			rml_staging_-_sistic_crm													rainmakerlabs.pem												
+52.74.61.76			rml_live_-_project_prelive													Live_Server_Key_Pair.pem											
+52.221.243.101		rml_live_-_product_holler													Live_Holler_Key.pem											
+54.254.2.234		rml_dev_-_(to_be_terminated_-_contains_dev_projects)						rainmakerlabs.pem					
+54.254.44.114		rml_staging_-_teckwah														rainmakerlabs.pem												
+None				rml_ibm_demo_(_david_)														None					
+54.151.205.41		rml_etc_-_jira_(terminating_gitlab_-_reduce_storage)						rainmakerlabs.pem					
+52.77.210.169		rml_shooting_game_windows													rainmakerlabs.pem							
+54.169.224.138		rml-projects-live-autoscale_1a_old											rml_live_new.pem									
+54.169.252.87		rml_gitlab_-_8ci_(new)														rainmakerlabs.pem												
+None				to_run_awscli_-_ascli_(usable_configuration_asg)							None					
+52.74.37.157		rml_live_-_glusterfs														None					
+None				rml_outsystems_-_david_alex_leong											None					
+54.169.102.177		gluster_server_(no_delete)													Live_Server_Key_Pair.pem											
+46.137.241.186		rml_dev_-_legacy_projects_(to_be_terminated_-_contains_live_projects)		keypair.pem
+52.74.7.85			rml_jenkins_server															RML_Jenkins_Server.pem														
+54.169.223.130		rml_dev_-_pcs_secure_launcher_(terminate_on_june_2016_after_warranty_ends)	rainmakerlabs.pem
+None				rml_staging_-projects_&_product												None					

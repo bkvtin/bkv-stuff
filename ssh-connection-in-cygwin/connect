@@ -1,19 +1,8 @@
 #!/bin/bash
-# Purpose : Connect to linux server in SDL                  
+# Purpose : Connect to linux server in RML                  
 # Author  : Tin Tran                     
 
-# ---------------------------------------------------------------
-# Show title of cygwin terminal
-# ---------------------------------------------------------------
-function settitle() {
-  servername=$1
-  echo -ne "\033]2;"$servername"\007"
-}
-function title() {
-  settitle $(cygpath -m `pwd`)
-}
-
-# ---------------------------------------------------------------
+#---------------------------------------------------------------
 # Check variable is interger or not
 #----------------------------------------------------------------
 function is_integer() {
@@ -21,7 +10,7 @@ function is_integer() {
   return $?
 }
 
-# ---------------------------------------------------------------
+#---------------------------------------------------------------
 # Format view
 #----------------------------------------------------------------
 function format() {
@@ -31,26 +20,35 @@ function format() {
   printf "%s\n\n" "_________________________________________________________"
 }
 
-# ---------------------------------------------------------------
+#---------------------------------------------------------------
 # Define variable
 #----------------------------------------------------------------
 path="./List_server_ip_public"
 ip=(`grep "$1" $path | awk '{print $1}'`)
 server=(`grep "$1" $path | awk '{print $2}'`)
+key=(`grep "$1" $path | awk '{print $3}'`)
 
-# ---------------------------------------------------------------
+echo $server
+
+#---------------------------------------------------------------
 # Main
 #----------------------------------------------------------------
 # Check if having more selections
-u_ma="your-username"
-p_ma="your-encode-base64-password" # echo "your-plaintext-password" | base64
+u_ma="ubuntu"
 
-if [ ${#server[@]} -gt 1 ];then
+if [ ${#server[@]} -ge 1 ];then
   format
   j=0
   for i in "${server[@]}"; do
     let "count=$j+1"
-    printf "%s\t\t%s\n" "[$count] - $i" "${ip[$j]}"
+    #printf "%s\t\t\t%s\t%s\n" "[$count] - $i" "${ip[$j]}" "${key[$j]}"
+    if [[ "$count" -le 9 ]]; then
+      count="0$count"
+    else
+      count="$count"
+    fi
+
+    printf "%s %15s %30s %s\n" "[$count] - " "${ip[$j]}" "${key[$j]}" "$i"
     let "j=$j+1"
   done
   printf "%s\n\n" "_________________________________________________________"
@@ -64,13 +62,7 @@ if [ ${#server[@]} -gt 1 ];then
       if [ $input -eq $i ];then
         let "j=$i-1"
         echo ":: Connecting server ${server[$j]} ${ip[$j]} ..."
-        settitle ${server[@]}
-        
-        # ------ Old style ------
-        #ssh -p 22 $u_ma@"${ip[$j]}"
- 
-        # ------ New style ------
-        ./auto_ssh.ksh $u_ma ${ip[$j]} $(echo $p_ma | base64 -d)
+        ssh -i "./key_pem/${key[$j]}" $u_ma@"${ip[$j]}"
       fi
     done
   else
