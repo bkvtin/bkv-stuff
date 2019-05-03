@@ -1,10 +1,26 @@
 #!/bin/bash
-# Purpose : Connect to linux server in SDL                  
-# Author  : Tin Tran                     
+set -e
 
-# ---------------------------------------------------------------
+__RAINBOWPALETTE="1"
+function __colortext(){
+  echo -e " \e[$__RAINBOWPALETTE;$2m$1\e[0m"
+}
+
+function echogreen() {
+  echo $(__colortext "$1" "32")
+}
+
+function echored() {
+  echo $(__colortext "$1" "31")
+}
+
+function echopurple() {
+  echo $(__colortext "$1" "35")
+}
+
+#------------------------------------
 # Show title of cygwin terminal
-# ---------------------------------------------------------------
+#------------------------------------
 function settitle() {
   servername=$1
   echo -ne "\033]2;"$servername"\007"
@@ -13,17 +29,17 @@ function title() {
   settitle $(cygpath -m `pwd`)
 }
 
-# ---------------------------------------------------------------
+#------------------------------------
 # Check variable is interger or not
-#----------------------------------------------------------------
+#------------------------------------
 function is_integer() {
   printf "%d" $1 > /dev/null 2>&1
   return $?
 }
 
-# ---------------------------------------------------------------
+#------------------------------------
 # Format view
-#----------------------------------------------------------------
+#------------------------------------
 function format() {
   printf "%s\n" "_________________________________________________________"
   printf "%s\n" "                                                 "
@@ -31,52 +47,56 @@ function format() {
   printf "%s\n\n" "_________________________________________________________"
 }
 
-# ---------------------------------------------------------------
+#------------------------------------
 # Define variable
-#----------------------------------------------------------------
-path="./List_server_ip_public"
-ip=(`grep "$1" $path | awk '{print $1}'`)
-server=(`grep "$1" $path | awk '{print $2}'`)
-
-# ---------------------------------------------------------------
-# Main
-#----------------------------------------------------------------
-# Check if having more selections
-u_ma="your-username"
-p_ma="your-encode-base64-password" # echo "your-plaintext-password" | base64
-
-if [ ${#server[@]} -gt 1 ];then
-  format
-  j=0
-  for i in "${server[@]}"; do
-    let "count=$j+1"
-    printf "%s\t\t%s\n" "[$count] - $i" "${ip[$j]}"
-    let "j=$j+1"
-  done
-  printf "%s\n\n" "_________________________________________________________"
-
-  # Choose server to connect
-  echo -n "* Which server: "; read input
-  lenght=${#ip[@]}
-  # Check if it is not interger
-  if is_integer $input;then
-    for (( i=1; i <= $lenght; i++ )); do
-      if [ $input -eq $i ];then
-        let "j=$i-1"
-        echo ":: Connecting server ${server[$j]} ${ip[$j]} ..."
-        settitle ${server[@]}
-        
-        # ------ Old style ------
-        #ssh -p 22 $u_ma@"${ip[$j]}"
- 
-        # ------ New style ------
-        ./auto_ssh.ksh $u_ma ${ip[$j]} $(echo $p_ma | base64 -d)
-      fi
-    done
-  else
-    printf "%s\n\n" "_________________________________________________________"
-    printf "%s\n\n" "[WARNING] - Wrong selection. Try again or go home"
-  fi
+#------------------------------------
+file_config="~/.ssh/config"
+if [ -z "$1" ]; then
+  hosts=$(cat $file_config | grep '^Host ' | awk '{print $2}' | sort | uniq)
 else
-  echo ":: Your choice is not supported"
+  hosts=$(cat $file_config | grep '^Host ' | awk '{print $2}' | sort | uniq | grep $1)
+fi
+
+#------------------------------------
+# Format view
+#------------------------------------
+function format() {
+  printf "%s\n" "_________________________________________________________"
+  printf "%s\n" " "
+  printf "%s\n" "* Having $(__colortext ${#arr[@]} '31') matching results, choose 1 in ${#arr[@]}"
+  printf "%s\n\n" "_________________________________________________________"
+}
+
+#------------------------------------
+# Main
+#------------------------------------
+arr=(${hosts// / }); count=0; format
+
+for host in "${arr[@]}"; do
+  let "count+=1"
+  # Format number smaller 10
+  if [ $count -lt 10 ]; then
+    number="0$count"
+  else
+    number="$count"
+  fi
+  printf "%s\t\t%s\n" "$(__colortext [$number] '31') - $(__colortext $host '32')"
+done
+
+# Choose server to connect
+printf "\n\n%s" "* Which instance: "; read input
+
+# Check if it is not interger
+if is_integer $input; then
+  lenght=${#arr[@]}
+  for (( i=0; i <= $lenght; i++ )); do
+    let "j=$i+1"
+    if [ $input -eq $j ]; then
+      echo ":: Connecting instance $(__colortext ${arr[$i]} '32')"
+      ssh ${arr[$i]}; exit 0
+    fi
+  done
+else
+  printf "%s\n\n" "_________________________________________________________"
+  printf "%s\n\n" "[WARNING] - Wrong selection. Try again or go home"
 fi

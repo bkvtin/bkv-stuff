@@ -1,7 +1,0 @@
-#------------------------------------------
-# Prepare the list of servers with name 
-# and ip-address
-#------------------------------------------
-
-# EXAMPLE
-x.x.x.x      full-server-name      short-name
