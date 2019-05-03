@@ -1,0 +1,23 @@
+# EXAMPLE
+
+#------------------------------------
+# ENVIRONMENT FOO
+#------------------------------------
+Host foo
+  HostName x.x.x.x
+  Port 47447
+  Identityfile ~/.ssh/id_rsa
+  User foo
+  ForwardAgent yes
+
+
+#------------------------------------
+# ENVIRONMENT BAR
+#------------------------------------
+Host bar
+  HostName y.y.y.y
+  Port 22
+  Identityfile ~/.ssh/id_rsa
+  User bar
+  ForwardAgent yes
+
